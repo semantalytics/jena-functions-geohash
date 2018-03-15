@@ -15,11 +15,15 @@ public enum GeoHashVocabulary {
     longitude,
     addLongitude;
 
-    public static final String namespace = "http://semantalytics.com/2017/09/ns/stardog/kibble/geo/hash/";
+    public static final String NAMESPACE = "http://semantalytics.com/2017/09/ns/stardog/kibble/geo/hash/";
     public final IRI iri;
 
     GeoHashVocabulary() {
-        iri = StardogValueFactory.instance().createIRI(namespace, name());
+        iri = StardogValueFactory.instance().createIRI(NAMESPACE, name());
+    }
+
+    public static String sparqlPrefix(String prefixName) {
+        return "PREFIX " + prefixName + ": <" + NAMESPACE + "> ";
     }
 
     public String stringValue() {
