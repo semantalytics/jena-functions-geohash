@@ -1,4 +1,4 @@
-package com.semantalytics.stardog.kibble.geo.hash;
+package com.semantalytics.stardog.kibble.geo.geohash;
 
 import com.complexible.common.rdf.model.StardogValueFactory;
 import org.openrdf.model.IRI;
@@ -12,7 +12,11 @@ public enum GeoHashVocabulary {
     decode,
     encode,
     latitude,
+    hashLengthToCoverBoundingBox,
+    hashContains,
     longitude,
+    heightDegrees,
+    widthDegrees,
     addLongitude;
 
     public static final String NAMESPACE = "http://semantalytics.com/2017/09/ns/stardog/kibble/geo/hash/";

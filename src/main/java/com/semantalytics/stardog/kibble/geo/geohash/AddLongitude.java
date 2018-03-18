@@ -1,21 +1,21 @@
-package com.semantalytics.stardog.kibble.geo.hash;
+package com.semantalytics.stardog.kibble.geo.geohash;
 
 import com.complexible.common.rdf.model.Values;
 import com.complexible.stardog.plan.filter.ExpressionEvaluationException;
 import com.complexible.stardog.plan.filter.ExpressionVisitor;
 import com.complexible.stardog.plan.filter.functions.AbstractFunction;
-import com.complexible.stardog.plan.filter.functions.string.StringFunction;
+import com.complexible.stardog.plan.filter.functions.UserDefinedFunction;
 import com.github.davidmoten.geo.GeoHash;
 import org.openrdf.model.Value;
 
-public final class Bottom extends AbstractFunction implements StringFunction {
+public final class AddLongitude extends AbstractFunction implements UserDefinedFunction {
 
-    protected Bottom() {
-        super(1, GeoHashVocabulary.bottom.iri.stringValue());
+    protected AddLongitude() {
+        super(1, GeoHashVocabulary.addLongitude.iri.stringValue());
     }
 
-    private Bottom(final Bottom bottom) {
-        super(bottom);
+    private AddLongitude(final AddLongitude addLongitude) {
+        super(addLongitude);
     }
 
     @Override
@@ -24,12 +24,12 @@ public final class Bottom extends AbstractFunction implements StringFunction {
         final double latitude = assertNumericLiteral(values[1]).doubleValue();
         final double longitude = assertNumericLiteral(values[2]).doubleValue();
 
-        return Values.literal(GeoHash.decodeHash(hash).add(latitude, longitude).getLat());
+        return Values.literal(GeoHash.decodeHash(hash).add(latitude, longitude).getLon());
     }
 
     @Override
-    public Bottom copy() {
-        return new Bottom(this);
+    public AddLongitude copy() {
+        return new AddLongitude(this);
     }
 
     @Override
@@ -39,7 +39,7 @@ public final class Bottom extends AbstractFunction implements StringFunction {
 
     @Override
     public String toString() {
-        return GeoHashVocabulary.bottom.name();
+        return GeoHashVocabulary.decode.name();
     }
 
 }

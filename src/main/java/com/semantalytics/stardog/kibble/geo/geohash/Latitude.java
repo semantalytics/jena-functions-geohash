@@ -1,28 +1,30 @@
-package com.semantalytics.stardog.kibble.geo.hash;
+package com.semantalytics.stardog.kibble.geo.geohash;
 
-import com.complexible.common.rdf.model.Values;
 import com.complexible.stardog.plan.filter.ExpressionEvaluationException;
 import com.complexible.stardog.plan.filter.ExpressionVisitor;
 import com.complexible.stardog.plan.filter.functions.AbstractFunction;
-import com.complexible.stardog.plan.filter.functions.string.StringFunction;
-import com.github.davidmoten.geo.GeoHash;
+import com.complexible.stardog.plan.filter.functions.UserDefinedFunction;
 import org.openrdf.model.Value;
 
+import static com.complexible.common.rdf.model.Values.*;
+import static com.github.davidmoten.geo.GeoHash.*;
 
-public final class Latitude extends AbstractFunction implements StringFunction {
+public final class Latitude extends AbstractFunction implements UserDefinedFunction {
 
     protected Latitude() {
         super(1, GeoHashVocabulary.latitude.iri.stringValue());
     }
 
-    private Latitude(final Latitude caseFormat) {
-        super(caseFormat);
+    private Latitude(final Latitude latitude) {
+        super(latitude);
     }
 
     @Override
     protected Value internalEvaluate(final Value... values) throws ExpressionEvaluationException {
-        final String hash = assertLiteral(values[0]).stringValue();
-        return Values.literal(GeoHash.decodeHash(hash).getLat());
+
+        final String hash = assertStringLiteral(values[0]).stringValue();
+
+        return literal(decodeHash(hash).getLat());
     }
 
     @Override

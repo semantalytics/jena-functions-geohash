@@ -1,14 +1,14 @@
-package com.semantalytics.stardog.kibble.geo.hash;
+package com.semantalytics.stardog.kibble.geo.geohash;
 
 import com.complexible.common.rdf.model.Values;
 import com.complexible.stardog.plan.filter.ExpressionEvaluationException;
 import com.complexible.stardog.plan.filter.ExpressionVisitor;
 import com.complexible.stardog.plan.filter.functions.AbstractFunction;
-import com.complexible.stardog.plan.filter.functions.string.StringFunction;
+import com.complexible.stardog.plan.filter.functions.UserDefinedFunction;
 import com.github.davidmoten.geo.GeoHash;
 import org.openrdf.model.Value;
 
-public final class AddLatitude extends AbstractFunction implements StringFunction {
+public final class AddLatitude extends AbstractFunction implements UserDefinedFunction {
 
     protected AddLatitude() {
         super(1, GeoHashVocabulary.decode.iri.stringValue());
