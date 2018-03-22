@@ -32,7 +32,9 @@ import java.net.InetSocketAddress;
         TestLongitude.class,
         TestRight.class,
         TestTop.class,
-        TestWidthDegrees.class
+        TestWidthDegrees.class,
+        TestDecode.class,
+        TestNeighbors.class,
 })
 
 public class GeohashTestSuite extends TestCase {

@@ -14,8 +14,9 @@ public enum GeoHashVocabulary {
     latitude,
     hashLengthToCoverBoundingBox,
     hashContains,
-    longitude,
     heightDegrees,
+    longitude,
+    neighbors,
     widthDegrees,
     addLongitude;
 
