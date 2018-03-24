@@ -1,17 +1,10 @@
 package com.semantalytics.stardog.kibble.geo.geohash;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.complexible.common.openrdf.query.BindingSets;
 import com.complexible.common.rdf.model.StardogValueFactory;
 import com.complexible.stardog.plan.eval.ExecutionException;
-import com.google.common.collect.Lists;
 import com.semantalytics.stardog.kibble.AbstractStardogTest;
-import info.aduna.iteration.Iterations;
 import org.junit.Test;
 import org.openrdf.model.Literal;
-import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.TupleQueryResult;
 
@@ -57,7 +50,7 @@ public class TestDecode extends AbstractStardogTest {
     @Test(expected = ExecutionException.class)
     public void tooManyInputsThrowsError() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:decode (\"gbsuv7ztqzpt\" 5) }";
+                " select * where { (?latitude ?longitude) geohash:decode (\"gbsuv7ztqzpt\" 5) }";
 
 
         final TupleQueryResult aResult = connection.select(aQueryStr).execute();
@@ -72,7 +65,7 @@ public class TestDecode extends AbstractStardogTest {
     @Test(expected = ExecutionException.class)
     public void argCannotBeANonnumericLiteral() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:decode (5) }";
+                " select * where { (?latitude ?longitude) geohash:decode (5) }";
 
 
         final TupleQueryResult aResult = connection.select(aQueryStr).execute();
@@ -86,7 +79,7 @@ public class TestDecode extends AbstractStardogTest {
     @Test(expected = ExecutionException.class)
     public void argCannotBeAnIRI() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:decode (<http://example.com>) }";
+                " select * where { (?latitude ?longitude) geohash:decode (<http://example.com>) }";
 
 
         final TupleQueryResult aResult = connection.select(aQueryStr).execute();
@@ -100,7 +93,7 @@ public class TestDecode extends AbstractStardogTest {
     @Test
     public void argCannotBeABNode() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:decode (_:bnode) }";
+                " select * where { (?latitude ?longitude) geohash:decode (_:bnode) }";
 
         try(final TupleQueryResult aResult = connection.select(aQueryStr).execute()) {
             assertFalse("Should have no more results", aResult.hasNext());
@@ -110,7 +103,7 @@ public class TestDecode extends AbstractStardogTest {
     @Test
     public void varInputWithNoResultsShouldProduceZeroResults() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:decode (?input) }";
+                " select * where { (?latitude ?longitude) geohash:decode (?input) }";
 
 
         final TupleQueryResult aResult = connection.select(aQueryStr).execute();
@@ -132,13 +125,10 @@ public class TestDecode extends AbstractStardogTest {
 
             aBindingSet = aResult.next();
 
-            assertEquals(literal("star"), aBindingSet.getValue("result"));
-            assertEquals(literal(0, StardogValueFactory.Datatype.INTEGER), aBindingSet.getValue("idx"));
-
-            //aBindingSet = aResult.next();
-
-            //assertEquals(literal("dog"), aBindingSet.getValue("result"));
-            //assertEquals(literal(1, StardogValueFactory.Datatype.INTEGER), aBindingSet.getValue("idx"));
+            assertEquals(StardogValueFactory.Datatype.DOUBLE.iri(), ((Literal)aBindingSet.getValue("latitude")).getDatatype());
+            assertEquals(48.669, ((Literal)aBindingSet.getValue("latitude")).doubleValue(), 0.0001);
+            assertEquals(StardogValueFactory.Datatype.DOUBLE.iri(), ((Literal)aBindingSet.getValue("longitude")).getDatatype());
+            assertEquals(-4.329, ((Literal)aBindingSet.getValue("longitude")).doubleValue(), 0.0001);
 
             assertFalse("Should have no more results", aResult.hasNext());
         }
@@ -219,8 +209,8 @@ public class TestDecode extends AbstractStardogTest {
     public void shouldRenderACustomExplanation() {
 
         final String aQueryStr = GeoHashVocabulary.sparqlPrefix("geohash") +
-                "select * where { (?result ?idx) geohash:decode (\"star\u001fdog\") }";
+                "select * where { (?latitude ?longitude) geohash:decode (\"gbsuv7ztqzpt\") }";
 
-        assertTrue(connection.select(aQueryStr).explain().contains("StringArray("));
+        assertTrue(connection.select(aQueryStr).explain().contains("geohash:decode("));
     }
 }

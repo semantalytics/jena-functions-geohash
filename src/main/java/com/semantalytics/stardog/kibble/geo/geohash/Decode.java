@@ -1,6 +1,5 @@
 package com.semantalytics.stardog.kibble.geo.geohash;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +28,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.apache.commons.lang.ObjectUtils;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 
@@ -118,7 +116,7 @@ public final class Decode implements PropertyFunction {
 
         final DecodePlanNode aNode = (DecodePlanNode) theNode;
 
-        return String.format("geohash(%s)", theTermRenderer.render(aNode.getInput()));
+        return String.format("geohash:decode(%s)", theTermRenderer.render(aNode.getInput()));
     }
 
     /**
@@ -374,7 +372,7 @@ public final class Decode implements PropertyFunction {
             while (mInputs.hasNext()) {
                     solution = mInputs.next();
 
-                    LatLong coordinate = GeoHash.decodeHash(mNode.getInput().getValue().stringValue());
+                    LatLong coordinate = GeoHash.decodeHash(getMappings().getValue(getValue()).stringValue());
 
                     solution.set(mNode.getLatitudeVar().getName(), getMappings().add(literal(coordinate.getLat())));
                     solution.set(mNode.getLongitudeVar().getName(), getMappings().add(literal(coordinate.getLon())));

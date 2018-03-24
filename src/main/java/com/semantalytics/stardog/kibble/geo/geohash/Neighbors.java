@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Value;
 
 import static com.complexible.common.rdf.model.Values.literal;
 import static com.complexible.stardog.plan.Costs.*;
@@ -39,7 +40,7 @@ import static com.complexible.stardog.plan.Costs.*;
  * and produces optionally two outputs the value and optionally, the iteration counter</p>
  *
  * {@code
- *   (?result ?i) <string:array> ("one\u001ftwo\u001fthree))
+ *   (?top ?bottom ?right ?left) <geohash:neighbors> (""))
  * }
  *
  */
@@ -116,7 +117,7 @@ public final class Neighbors implements PropertyFunction {
 
         final NeighborsPlanNode aNode = (NeighborsPlanNode) theNode;
 
-        return String.format("geohash(%s)", theTermRenderer.render(aNode.getInput()));
+        return String.format("geohashneighbors(%s)", theTermRenderer.render(aNode.getInput()));
     }
 
     /**
@@ -386,10 +387,10 @@ public final class Neighbors implements PropertyFunction {
             while (mInputs.hasNext()) {
                 solution = mInputs.next();
 
-                final String top = GeoHash.top(mNode.getInput().getValue().stringValue());
-                final String bottom = GeoHash.bottom(mNode.getInput().getValue().stringValue());
-                final String right = GeoHash.right(mNode.getInput().getValue().stringValue());
-                final String left = GeoHash.left(mNode.getInput().getValue().stringValue());
+                final String top = GeoHash.top(getMappings().getValue(getValue()).stringValue());
+                final String bottom = GeoHash.bottom(getMappings().getValue(getValue()).stringValue());
+                final String right = GeoHash.right(getMappings().getValue(getValue()).stringValue());
+                final String left = GeoHash.left(getMappings().getValue(getValue()).stringValue());
 
                 solution.set(mNode.getTop().getName(), getMappings().add(literal(top)));
                 solution.set(mNode.getBottom().getName(), getMappings().add(literal(bottom)));

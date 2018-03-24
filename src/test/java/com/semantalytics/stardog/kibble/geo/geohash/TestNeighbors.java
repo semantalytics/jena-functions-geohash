@@ -90,7 +90,7 @@ public class TestNeighbors extends AbstractStardogTest {
     @Test
     public void argCannotBeABNode() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:neighbors (_:bnode) }";
+                " select * where { (?top ?bottom ?left ?right) geohash:neighbors (_:bnode) }";
 
         try(final TupleQueryResult aResult = connection.select(aQueryStr).execute()) {
             assertFalse("Should have no more results", aResult.hasNext());
@@ -100,7 +100,7 @@ public class TestNeighbors extends AbstractStardogTest {
     @Test
     public void varInputWithNoResultsShouldProduceZeroResults() {
         final String aQueryStr = sparqlPrefix +
-                " select * where { ?result geohash:neighbors (?input) }";
+                " select * where { (?top ?bottom ?left ?right) geohash:neighbors (?input) }";
 
 
         final TupleQueryResult aResult = connection.select(aQueryStr).execute();
@@ -212,8 +212,8 @@ public class TestNeighbors extends AbstractStardogTest {
     public void shouldRenderACustomExplanation() {
 
         final String aQueryStr = GeoHashVocabulary.sparqlPrefix("geohash") +
-                "select * where { (?result ?idx) geohash:neighbors (\"star\u001fdog\") }";
+                "select * where { (?top ?bottom ?right ?left) geohash:neighbors (\"gbsuv7ztqzpt\") }";
 
-        assertTrue(connection.select(aQueryStr).explain().contains("StringArray("));
+        assertTrue(connection.select(aQueryStr).explain().contains("geohashneighbors("));
     }
 }
