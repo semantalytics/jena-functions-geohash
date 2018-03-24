@@ -1,9 +1,6 @@
 package com.semantalytics.stardog.kibble.geo.geohash;
 
-import com.complexible.common.rdf.model.Values;
-import com.github.davidmoten.geo.GeoHash;
 import com.semantalytics.stardog.kibble.AbstractStardogTest;
-import com.sun.tools.javac.util.List;
 import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.query.BindingSet;
