@@ -159,7 +159,7 @@
                         <exclude>**/Test*</exclude>
                     </excludes>
                     <includes>
-                        <include>**/StringTestSuite.java</include>
+                        <include>**/GeohashTestSuite.java</include>
                     </includes>
                 </configuration>
             </plugin>

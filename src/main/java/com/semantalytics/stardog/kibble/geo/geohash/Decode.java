@@ -34,15 +34,6 @@ import org.openrdf.model.Literal;
 import static com.complexible.common.rdf.model.Values.literal;
 import static com.complexible.stardog.plan.Costs.*;
 
-/**
- * <p>An implementation of a property function that takes two arguments, a value and the number of times to repeat it
- * and produces optionally two outputs the value and optionally, the iteration counter</p>
- *
- * {@code
- *   (?result ?i) <string:array> ("one\u001ftwo\u001fthree))
- * }
- *
- */
 public final class Decode implements PropertyFunction {
 
     private static final IRI FUNCTION_IRI = GeoHashVocabulary.decode.iri;

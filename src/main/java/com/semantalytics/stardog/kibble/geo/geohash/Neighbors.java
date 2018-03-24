@@ -35,15 +35,6 @@ import org.openrdf.model.Value;
 import static com.complexible.common.rdf.model.Values.literal;
 import static com.complexible.stardog.plan.Costs.*;
 
-/**
- * <p>An implementation of a property function that takes two arguments, a value and the number of times to repeat it
- * and produces optionally two outputs the value and optionally, the iteration counter</p>
- *
- * {@code
- *   (?top ?bottom ?right ?left) <geohash:neighbors> (""))
- * }
- *
- */
 public final class Neighbors implements PropertyFunction {
 
     private static final IRI FUNCTION_IRI = GeoHashVocabulary.neighbors.iri;
@@ -373,8 +364,6 @@ public final class Neighbors implements PropertyFunction {
                     aVars.add(mNode.getBottom().getName());
                     aVars.add(mNode.getRight().getName());
                     aVars.add(mNode.getLeft().getName());
-
-                    //mNode.getArrayIndexVar().map(QueryTerm::getName).ifPresent(aVars::add);
 
                     // we only want to create solutions with the minimum number of variables
                     mInputs = Iterators.singletonIterator(mExecutionContext.getSolutionFactory()
