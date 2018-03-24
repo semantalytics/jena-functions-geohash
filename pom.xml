@@ -96,7 +96,7 @@
     </repositories>
 
     <build>
-        <finalName>${project.artifactId}-${project.version}-sd${stardog.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}-sd${stardog.major.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -122,6 +122,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.3</version>
                 <configuration>
+                    <minimizeJar/>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
