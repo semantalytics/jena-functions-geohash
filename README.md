@@ -14,14 +14,12 @@ functions:
     left
     top
     bottom
-    decode
     encode
     latitude
     hashLengthToCoverBoundingBox
     hashContains
     heightDegrees
     longitude
-    neighbors
     widthDegrees
     
 property functions:
